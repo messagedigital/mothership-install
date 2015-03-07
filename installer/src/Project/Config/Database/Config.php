@@ -22,6 +22,17 @@ class Config extends AbstractConfig
 	const PASS    = 'pass';
 	const NAME    = 'name';
 	const CHARSET = 'charset';
+	
+	public function defaultConfig()
+	{
+		return array(
+			self::HOST => '127.0.0.1',
+			self::USER => 'user',
+			self::PASS => 'password',
+			self::NAME => 'table_name',
+			self::CHARSET => 'utf8',
+		);
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -42,10 +53,8 @@ class Config extends AbstractConfig
 
 		while ($asking) {
 			$this->_question->ask("Please enter your database details:");
-			foreach ($dbConfig as $key => $value) {
-				if ($key === self::CHARSET) {
-					continue;
-				}
+			foreach ($this->defaultConfig() as $key => $value) {
+				
 				$this->_question->option($key . ' (defaults to `' . $value . '`):');
 				$wait = true;
 				while ($wait) {
